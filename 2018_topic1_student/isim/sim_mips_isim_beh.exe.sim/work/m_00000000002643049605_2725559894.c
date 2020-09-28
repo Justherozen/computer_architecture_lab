@@ -21,7 +21,7 @@
 #include <malloc.h>
 #define alloca _alloca
 #endif
-static const char *ng0 = "D:/ISE/2018_topic1_student/alu.v";
+static const char *ng0 = "F:/Meyas/computer_architecture_lab/2018_topic1_student/alu.v";
 static int ng1[] = {0, 0};
 
 
