@@ -1,0 +1,1 @@
+vhdtdtfi -lang verilog -prj exp3 -o F:/Meyas/computer_architecture_lab/2018_topic2_student/mips.tfi -lib work F:/Meyas/computer_architecture_lab/2018_topic2_student//mips.v -module mips -template F:/tools/programming/ISE/14.7/ISE_DS/ISE//data/tfi.tft -deleteonerror 

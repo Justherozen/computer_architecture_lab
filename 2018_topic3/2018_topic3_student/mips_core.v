@@ -39,6 +39,10 @@ module mips_core (
 	wire [1:0] wb_addr_src_ctrl;
 	wire wb_data_src_ctrl;
 	wire wb_wen_ctrl;
+	wire mem_ren_mem;
+	wire wb_wen_wb;
+	wire [4:0] regw_addr_wb;
+	wire [4:0] addr_rs_exe,addr_rt_exe;
 	
 	wire is_branch_exe, is_branch_mem;
 	wire [4:0] regw_addr_exe, regw_addr_mem;
@@ -93,7 +97,12 @@ module mips_core (
 		.wb_en(wb_en),
 		.wb_valid(wb_valid),
 		.exe_fwd_a_ctrl(exe_fwd_a_ctrl),
-		.exe_fwd_b_ctrl(exe_fwd_b_ctrl)
+		.exe_fwd_b_ctrl(exe_fwd_b_ctrl),
+		.mem_ren_mem(mem_ren_mem),
+		.wb_wen_wb(wb_wen_wb),
+		.regw_addr_wb(regw_addr_wb),
+		.addr_rs_exe(addr_rs_exe),
+		.addr_rt_exe(addr_rt_exe)
 	);
 	
 	// data path
@@ -144,7 +153,12 @@ module mips_core (
 		.wb_en(wb_en),
 		.wb_valid(wb_valid),
 		.exe_fwd_a_ctrl(exe_fwd_a_ctrl),
-		.exe_fwd_b_ctrl(exe_fwd_b_ctrl)
+		.exe_fwd_b_ctrl(exe_fwd_b_ctrl),
+		.mem_ren_mem(mem_ren_mem),
+		.wb_wen_wb(wb_wen_wb),
+		.regw_addr_wb(regw_addr_wb),
+		.addr_rs_exe(addr_rs_exe),
+		.addr_rt_exe(addr_rt_exe)
 	);
 	
 endmodule

@@ -49,7 +49,12 @@ module controller (/*AUTOARG*/
 	output reg wb_en,
 	input wire wb_valid,
 	output reg [1:0]exe_fwd_a_ctrl,
-	output reg [1:0]exe_fwd_b_ctrl
+	output reg [1:0]exe_fwd_b_ctrl,
+	input wire mem_ren_mem,
+	input wire [4:0] addr_rs_exe,
+	input wire [4:0] addr_rt_exe,
+	input wire wb_wen_wb, 
+	input wire [4:0] regw_addr_wb
 	);
 	
 	`include "mips_define.vh"
@@ -217,27 +222,22 @@ module controller (/*AUTOARG*/
 		reg_stall = 0;
 		exe_fwd_a_ctrl = 0;
 		exe_fwd_b_ctrl = 0;
-		if (rs_used && addr_rs != 0) begin
-			if (regw_addr_exe == addr_rs && wb_wen_exe) begin
-				if (mem_ren)
-					exe_fwd_a_ctrl = 2;
-				else
-					exe_fwd_a_ctrl = 1;
-			end
-			else if (regw_addr_mem == addr_rs && wb_wen_mem) begin
-				exe_fwd_a_ctrl = 3;
-			end
-		end
-		if (rt_used && addr_rt != 0) begin
-			if (regw_addr_exe == addr_rt && wb_wen_exe) begin
-				if (mem_ren)
-					exe_fwd_a_ctrl = 2;
-				else
-					exe_fwd_a_ctrl = 1;
-			end
-			else if (regw_addr_mem == addr_rt && wb_wen_mem) begin
-				exe_fwd_b_ctrl = 3;
-			end
+		if (wb_wen_mem && regw_addr_mem != 0 ) begin
+			if(regw_addr_mem == addr_rs_exe)
+				exe_fwd_a_ctrl = 2'b01;
+			if(regw_addr_mem == addr_rt_exe)
+				exe_fwd_b_ctrl = 2'b01;
+			if(regw_addr_mem == addr_rs_exe && mem_ren_mem)
+				exe_fwd_a_ctrl = 2'b10;
+			if(regw_addr_mem == addr_rt_exe && mem_ren_mem)
+				exe_fwd_b_ctrl = 2'b10;
+		end 
+		
+		if(wb_wen_wb && regw_addr_wb != 0) begin
+			if(regw_addr_mem != addr_rs_exe && regw_addr_wb == addr_rs_exe) 
+				exe_fwd_a_ctrl = 2'b11;
+			if(regw_addr_mem != addr_rt_exe && regw_addr_wb == addr_rt_exe)
+				exe_fwd_b_ctrl = 2'b11;
 		end
 	end
 		

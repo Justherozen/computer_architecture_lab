@@ -45,6 +45,8 @@
 	input wire exe_rst,
 	input wire exe_en,
 	output reg exe_valid,
+	output reg [4:0] addr_rs_exe,
+	output reg [4:0] addr_rt_exe,
 	// MEM signals
 	input wire mem_rst,
 	input wire mem_en,
@@ -54,12 +56,15 @@
 	output wire [31:0] mem_addr,  // address of memory
 	output wire [31:0] mem_dout,  // data writing to memory
 	input wire [31:0] mem_din,  // data read from memory
+	output reg mem_ren_mem,
 	// WB signals
 	input wire wb_rst,
 	input wire wb_en,
 	output reg wb_valid,
 	input wire [1:0]exe_fwd_a_ctrl,
-	input wire [1:0]exe_fwd_b_ctrl
+	input wire [1:0]exe_fwd_b_ctrl,
+	output reg wb_wen_wb, 
+	output reg [4:0] regw_addr_wb
 	);
 	
 	`include "mips_define.vh"
@@ -68,7 +73,7 @@
 	reg [2:0] pc_src_exe, pc_src_mem;
 	reg [1:0] exe_a_src_exe, exe_b_src_exe;
 	reg [3:0] exe_alu_oper_exe;
-	reg mem_ren_exe, mem_ren_mem;
+	reg mem_ren_exe;
 	reg mem_wen_exe, mem_wen_mem;
 	reg wb_data_src_exe, wb_data_src_mem, wb_data_src_wb;
 	
@@ -103,10 +108,8 @@
 	reg rs_rt_equal_mem;
 	
 	// WB signals
-	reg wb_wen_wb;
 	reg [31:0] alu_out_wb;
 	reg [31:0] mem_din_wb;
-	reg [4:0] regw_addr_wb;
 	reg [31:0] regw_data_wb;
 	
 	// debug
@@ -272,6 +275,8 @@
 			mem_wen_exe <= mem_wen_ctrl;
 			wb_data_src_exe <= wb_data_src_ctrl;
 			wb_wen_exe <= wb_wen_ctrl;
+			addr_rs_exe <= addr_rs;
+			addr_rt_exe <= addr_rt;
 		end
 	end
 	
@@ -280,18 +285,18 @@
 	end
 	
 	assign
-		rs_rt_equal_exe = (data_rs_exe == data_rt_exe);
+		rs_rt_equal_exe = (data_rs_modified == data_rt_modified);
 	
 	always @(*) begin
 		opa_exe = data_rs_modified;
 		opb_exe = data_rt_modified;
 		case (exe_a_src_exe)
-			EXE_A_RS: opa_exe = data_rs_exe;
+			EXE_A_RS: opa_exe = data_rs_modified;
 			EXE_A_LINK: opa_exe = inst_addr_next_exe;
 			EXE_A_BRANCH: opa_exe = inst_addr_next_exe;
 		endcase
 		case (exe_b_src_exe)
-			EXE_B_RT: opb_exe = data_rt_exe;
+			EXE_B_RT: opb_exe = data_rt_modified;
 			EXE_B_IMM: opb_exe = data_imm_exe;
 			EXE_B_LINK: opb_exe = 32'b0; // linked address is the next oneof current instruction
 			EXE_B_BRANCH: opb_exe = {data_imm_exe[29:0], 2'b0};
@@ -330,8 +335,8 @@
 			inst_data_mem <= inst_data_exe;
 			inst_addr_next_mem <= inst_addr_next_exe;
 			regw_addr_mem <= regw_addr_exe;
-			data_rs_mem <= data_rs_exe;
-			data_rt_mem <= data_rt_exe;
+			data_rs_mem <= data_rs_modified;
+			data_rt_mem <= data_rt_modified;
 			alu_out_mem <= alu_out_exe;
 			mem_ren_mem <= mem_ren_exe;
 			mem_wen_mem <= mem_wen_exe;

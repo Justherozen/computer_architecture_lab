@@ -1,0 +1,25 @@
+
+
+
+// Instantiate the module
+mips_top instance_name (
+    .CLK_200M_P(CLK_200M_P), 
+    .CLK_200M_N(CLK_200M_N), 
+    .SW(SW), 
+    .RSTN(RSTN), 
+    .BTN_X(BTN_X), 
+    .BTN_Y(BTN_Y), 
+    .SEGLED_CLK(SEGLED_CLK), 
+    .SEGLED_DO(SEGLED_DO), 
+    .SEGLED_PEN(SEGLED_PEN), 
+    .LED_PEN(LED_PEN), 
+    .LED_DO(LED_DO), 
+    .LED_CLK(LED_CLK), 
+    .VGA_B(VGA_B), 
+    .VGA_G(VGA_G), 
+    .VGA_R(VGA_R), 
+    .HS(HS), 
+    .VS(VS)
+    );
+
+
