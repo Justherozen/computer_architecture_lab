@@ -40,11 +40,11 @@ module sim_mips;
 	end
 	
 	initial forever begin 
-		#23 clk = ~clk;
+		#30 clk = ~clk;
 	end
 	
 	initial forever begin 
-		#37 debug_step = ~debug_step;
+		#20 debug_step = ~debug_step;
 	   
 	end;
 	
