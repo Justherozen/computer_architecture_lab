@@ -75,6 +75,8 @@ module controller (/*AUTOARG*/
 		wb_wen = 0;
 		rs_used = 0;
 		rt_used = 0;
+		is_load = 0;
+		is_store = 0;
 		unrecognized = 0;
 		case (inst[31:26])
 			INST_R: begin
@@ -194,6 +196,7 @@ module controller (/*AUTOARG*/
 				wb_data_src = WB_DATA_MEM;
 				wb_wen = 1;
 				rs_used = 1;
+				is_load = 1;
 			end
 			INST_SW: begin
 				imm_ext = 1;
@@ -202,6 +205,7 @@ module controller (/*AUTOARG*/
 				mem_wen = 1;
 				rs_used = 1;
 				rt_used = 1;
+				is_store = 1;
 			end
 			default: begin
 				unrecognized = 1;
@@ -210,9 +214,15 @@ module controller (/*AUTOARG*/
 	end
 	
 	// pipeline control
-	reg reg_stall;
+	reg reg_stall, load_stall;
 	reg branch_stall;
+	reg is_load, is_store;
+	reg is_load_exe;
 	wire [4:0] addr_rs, addr_rt;
+	
+	always @(posedge clk) begin
+       is_load_exe <= is_load;
+   end
 	
 	assign
 		addr_rs = inst[25:21],
@@ -242,9 +252,14 @@ module controller (/*AUTOARG*/
 	end
 		
 	always @(*) begin
+		load_stall = 0;
 		branch_stall = 0;
 		if (pc_src != PC_NEXT || is_branch_mem || is_branch_exe)
 			branch_stall = 1;
+		if((rs_used && regw_addr_exe == addr_rs && is_load_exe)
+			|| (rt_used && regw_addr_exe == addr_rt && is_load_exe && ~is_store)) begin
+			load_stall = 1;
+		end 
 	end
 	
 	
@@ -286,6 +301,12 @@ module controller (/*AUTOARG*/
 		`endif
 		// this stall indicate that ID is waiting for previous instruction, should insert NOPs between ID and EXE.
 		else if (reg_stall) begin
+			if_en = 0;
+			id_en = 0;
+			exe_rst = 1;
+		end
+		
+		else if (load_stall) begin
 			if_en = 0;
 			id_en = 0;
 			exe_rst = 1;

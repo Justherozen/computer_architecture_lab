@@ -8,5 +8,7 @@ Time resolution is 1 ps
 # run 1000 ns
 Simulator is doing circuit initialization process.
 Finished circuit initialization process.
-# run all
-Stopped at time : 3446370 ns : File "F:/Meyas/computer_architecture_lab/2018_topic3/2018_topic3_student/controller.v" Line 263
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us

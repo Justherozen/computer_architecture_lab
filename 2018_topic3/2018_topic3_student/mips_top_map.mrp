@@ -10,21 +10,23 @@ Target Device  : xc7k325t
 Target Package : fbg676
 Target Speed   : -2l
 Mapper Version : kintex7 -- $Revision: 1.55 $
-Mapped Date    : Tue Oct 27 17:24:33 2020
+Mapped Date    : Tue Nov 03 16:40:41 2020
 
-Interim Summary
----------------
+Design Summary
+--------------
+Number of errors:      0
+Number of warnings:   20
 Slice Logic Utilization:
-  Number of Slice Registers:                   837 out of 407,600    1%
-    Number used as Flip Flops:                 837
+  Number of Slice Registers:                   847 out of 407,600    1%
+    Number used as Flip Flops:                 847
     Number used as Latches:                      0
     Number used as Latch-thrus:                  0
     Number used as AND/OR logics:                0
-  Number of Slice LUTs:                      1,297 out of 203,800    1%
-    Number used as logic:                    1,199 out of 203,800    1%
-      Number using O6 output only:             992
+  Number of Slice LUTs:                      1,528 out of 203,800    1%
+    Number used as logic:                    1,426 out of 203,800    1%
+      Number using O6 output only:           1,170
       Number using O5 output only:              80
-      Number using O5 and O6:                  127
+      Number using O5 and O6:                  176
       Number used as ROM:                        0
     Number used as Memory:                      92 out of  64,000    1%
       Number used as Dual Port RAM:             92
@@ -33,19 +35,20 @@ Slice Logic Utilization:
         Number using O5 and O6:                 84
       Number used as Single Port RAM:            0
       Number used as Shift Register:             0
-    Number used exclusively as route-thrus:      6
-      Number with same-slice register load:      0
+    Number used exclusively as route-thrus:     10
+      Number with same-slice register load:      4
       Number with same-slice carry load:         6
       Number with other load:                    0
 
 Slice Logic Distribution:
-  Number of LUT Flip Flop pairs used:        1,631
-    Number with an unused Flip Flop:           828 out of   1,631   50%
-    Number with an unused LUT:                 334 out of   1,631   20%
-    Number of fully used LUT-FF pairs:         469 out of   1,631   28%
-    Number of unique control sets:              23
+  Number of occupied Slices:                   436 out of  50,950    1%
+  Number of LUT Flip Flop pairs used:        1,554
+    Number with an unused Flip Flop:           846 out of   1,554   54%
+    Number with an unused LUT:                  26 out of   1,554    1%
+    Number of fully used LUT-FF pairs:         682 out of   1,554   43%
+    Number of unique control sets:              26
     Number of slice register sites lost
-      to control set restrictions:             107 out of 407,600    1%
+      to control set restrictions:             113 out of 407,600    1%
 
   A LUT Flip Flop pair for this architecture represents one LUT paired with
   one Flip Flop within a slice.  A control set is a unique combination of
@@ -96,3 +99,235 @@ Specific Feature Utilization:
   Number of STARTUPs:                            0 out of       1    0%
   Number of XADCs:                               0 out of       1    0%
 
+Average Fanout of Non-Clock Nets:                4.41
+
+Peak Memory Usage:  5441 MB
+Total REAL time to MAP completion:  1 mins 26 secs 
+Total CPU time to MAP completion:   1 mins 18 secs 
+
+Table of Contents
+-----------------
+Section 1 - Errors
+Section 2 - Warnings
+Section 3 - Informational
+Section 4 - Removed Logic Summary
+Section 5 - Removed Logic
+Section 6 - IOB Properties
+Section 7 - RPMs
+Section 8 - Guide Report
+Section 9 - Area Group and Partition Summary
+Section 10 - Timing Report
+Section 11 - Configuration String Information
+Section 12 - Control Set Information
+Section 13 - Utilization by Hierarchy
+
+Section 1 - Errors
+------------------
+
+Section 2 - Warnings
+--------------------
+WARNING:PhysDesignRules:367 - The signal <VGA_DEBUG/Mram_data_buf1_RAMD_D1_O> is
+   incomplete. The signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <VGA_DEBUG/Mram_data_buf3_RAMD_D1_O> is
+   incomplete. The signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <VGA_DEBUG/Mram_data_buf2_RAMD_D1_O> is
+   incomplete. The signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <VGA_DEBUG/Mram_data_buf5_RAMD_D1_O> is
+   incomplete. The signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal
+   <MIPS/MIPS_CORE/DATAPATH/REGFILE/Mram_regfile22_RAMD_D1_O> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <VGA_DEBUG/Mram_data_buf4_RAMD_D1_O> is
+   incomplete. The signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal
+   <MIPS/MIPS_CORE/DATAPATH/REGFILE/Mram_regfile2_RAMD_D1_O> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal
+   <MIPS/MIPS_CORE/DATAPATH/REGFILE/Mram_regfile23_RAMD_D1_O> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal
+   <MIPS/MIPS_CORE/DATAPATH/REGFILE/Mram_regfile24_RAMD_D1_O> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal
+   <MIPS/MIPS_CORE/DATAPATH/REGFILE/Mram_regfile25_RAMD_D1_O> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal
+   <MIPS/MIPS_CORE/DATAPATH/REGFILE/Mram_regfile12_RAMD_D1_O> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal
+   <MIPS/MIPS_CORE/DATAPATH/REGFILE/Mram_regfile21_RAMD_D1_O> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal
+   <MIPS/MIPS_CORE/DATAPATH/REGFILE/Mram_regfile3_RAMD_D1_O> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal
+   <MIPS/MIPS_CORE/DATAPATH/REGFILE/Mram_regfile1_RAMD_D1_O> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal
+   <MIPS/MIPS_CORE/DATAPATH/REGFILE/Mram_regfile11_RAMD_D1_O> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal
+   <MIPS/MIPS_CORE/DATAPATH/REGFILE/Mram_regfile13_RAMD_D1_O> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal
+   <MIPS/MIPS_CORE/DATAPATH/REGFILE/Mram_regfile14_RAMD_D1_O> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal
+   <MIPS/MIPS_CORE/DATAPATH/REGFILE/Mram_regfile15_RAMD_D1_O> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal
+   <MIPS/MIPS_CORE/DATAPATH/REGFILE/Mram_regfile5_RAMD_D1_O> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal
+   <MIPS/MIPS_CORE/DATAPATH/REGFILE/Mram_regfile4_RAMD_D1_O> is incomplete. The
+   signal does not drive any load pins in the design.
+
+Section 3 - Informational
+-------------------------
+INFO:LIT:243 - Logical network BTN_Y<2>_IBUF has no load.
+INFO:LIT:395 - The above info message is repeated 9 more times for the following
+   (max. 5 shown):
+   BTN_Y<1>_IBUF,
+   MIPS/MIPS_CORE/DATAPATH/REGFILE/Mram_regfile62/SPO,
+   MIPS/MIPS_CORE/DATAPATH/REGFILE/Mram_regfile61/SPO,
+   MIPS/MIPS_CORE/DATAPATH/REGFILE/Mram_regfile262/SPO,
+   MIPS/MIPS_CORE/DATAPATH/REGFILE/Mram_regfile261/SPO
+   To see the details of these info messages, please use the -detail switch.
+INFO:Pack:1716 - Initializing temperature to 100.000 Celsius. (default - Range:
+   0.000 to 100.000 Celsius)
+INFO:Pack:1720 - Initializing voltage to 0.970 Volts. (default - Range: 0.970 to
+   1.030 Volts)
+INFO:Map:215 - The Interim Design Summary has been generated in the MAP Report
+   (.mrp).
+INFO:Pack:1650 - Map created a placed design.
+
+Section 4 - Removed Logic Summary
+---------------------------------
+   2 block(s) removed
+   3 block(s) optimized away
+   3 signal(s) removed
+
+Section 5 - Removed Logic
+-------------------------
+
+The trimmed logic report below shows the logic removed from your design due to
+sourceless or loadless signals, and VCC or ground connections.  If the removal
+of a signal or symbol results in the subsequent removal of an additional signal
+or symbol, the message explaining that second removal will be indented.  This
+indentation will be repeated as a chain of related logic is removed.
+
+To quickly locate the original cause for the removal of a chain of logic, look
+above the place where that logic is listed in the trimming report, then locate
+the lines that are least indented (begin at the leftmost edge).
+
+Loadless block "CLK_GEN/clkout1_buf" (CKBUF) removed.
+ The signal "CLK_GEN/clkout0" is loadless and has been removed.
+Loadless block "CLK_GEN/clkout2_buf" (CKBUF) removed.
+ The signal "CLK_GEN/clkout1" is loadless and has been removed.
+The signal "VGA_DEBUG/FONT_8X16/BRAM_PC_VGA_0/GND" is sourceless and has been
+removed.
+
+Optimized Block(s):
+TYPE 		BLOCK
+GND 		XST_GND
+VCC 		XST_VCC
+
+To enable printing of redundant blocks removed and signals merged, set the
+detailed map report option and rerun map.
+
+Section 6 - IOB Properties
+--------------------------
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------+
+| IOB Name                           | Type             | Direction | IO Standard          | Diff  | Drive    | Slew | Reg (s)      | Resistor | IOB      |
+|                                    |                  |           |                      | Term  | Strength | Rate |              |          | Delay    |
++---------------------------------------------------------------------------------------------------------------------------------------------------------+
+| BTN_X<0>                           | IOB              | OUTPUT    | LVCMOS18             |       | 12       | SLOW |              |          |          |
+| BTN_X<1>                           | IOB              | OUTPUT    | LVCMOS18             |       | 12       | SLOW |              |          |          |
+| BTN_X<2>                           | IOB              | OUTPUT    | LVCMOS18             |       | 12       | SLOW |              |          |          |
+| BTN_X<3>                           | IOB              | OUTPUT    | LVCMOS18             |       | 12       | SLOW |              |          |          |
+| BTN_X<4>                           | IOB              | OUTPUT    | LVCMOS18             |       | 12       | SLOW |              |          |          |
+| BTN_Y<0>                           | IOB              | INPUT     | LVCMOS18             |       |          |      |              |          |          |
+| BTN_Y<1>                           | IOB              | INPUT     | LVCMOS18             |       |          |      |              |          |          |
+| BTN_Y<2>                           | IOB              | INPUT     | LVCMOS18             |       |          |      |              |          |          |
+| BTN_Y<3>                           | IOB              | INPUT     | LVCMOS18             |       |          |      |              |          |          |
+| CLK_200M_N                         | IOB18            | INPUT     | LVDS                 | FALSE |          |      |              |          |          |
+| CLK_200M_P                         | IOB18            | INPUT     | LVDS                 | FALSE |          |      |              |          |          |
+| HS                                 | IOB33            | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| LED_CLK                            | IOB33            | OUTPUT    | LVCMOS33             |       | 12       | SLOW |              |          |          |
+| LED_DO                             | IOB33            | OUTPUT    | LVCMOS33             |       | 12       | SLOW |              |          |          |
+| LED_PEN                            | IOB33            | OUTPUT    | LVCMOS33             |       | 12       | SLOW |              |          |          |
+| RSTN                               | IOB              | INPUT     | LVCMOS18             |       |          |      |              |          |          |
+| SEGLED_CLK                         | IOB33            | OUTPUT    | LVCMOS33             |       | 12       | SLOW |              |          |          |
+| SEGLED_DO                          | IOB33            | OUTPUT    | LVCMOS33             |       | 12       | SLOW |              |          |          |
+| SEGLED_PEN                         | IOB33            | OUTPUT    | LVCMOS33             |       | 12       | SLOW |              |          |          |
+| SW<0>                              | IOB              | INPUT     | LVCMOS15             |       |          |      |              |          |          |
+| SW<1>                              | IOB              | INPUT     | LVCMOS15             |       |          |      |              |          |          |
+| SW<2>                              | IOB              | INPUT     | LVCMOS15             |       |          |      |              |          |          |
+| SW<3>                              | IOB              | INPUT     | LVCMOS15             |       |          |      |              |          |          |
+| SW<4>                              | IOB              | INPUT     | LVCMOS15             |       |          |      |              |          |          |
+| SW<5>                              | IOB              | INPUT     | LVCMOS15             |       |          |      |              |          |          |
+| SW<6>                              | IOB              | INPUT     | LVCMOS15             |       |          |      |              |          |          |
+| SW<7>                              | IOB              | INPUT     | LVCMOS15             |       |          |      |              | PULLUP   |          |
+| VGA_B<0>                           | IOB33            | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| VGA_B<1>                           | IOB33            | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| VGA_B<2>                           | IOB33            | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| VGA_B<3>                           | IOB33            | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| VGA_G<0>                           | IOB33            | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| VGA_G<1>                           | IOB33            | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| VGA_G<2>                           | IOB33            | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| VGA_G<3>                           | IOB33            | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| VGA_R<0>                           | IOB33            | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| VGA_R<1>                           | IOB33            | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| VGA_R<2>                           | IOB33            | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| VGA_R<3>                           | IOB33            | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| VS                                 | IOB33            | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
++---------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+Section 7 - RPMs
+----------------
+
+Section 8 - Guide Report
+------------------------
+Guide not run on this design.
+
+Section 9 - Area Group and Partition Summary
+--------------------------------------------
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+Area Group Information
+----------------------
+
+  No area groups were found in this design.
+
+----------------------
+
+Section 10 - Timing Report
+--------------------------
+A logic-level (pre-route) timing report can be generated by using Xilinx static
+timing analysis tools, Timing Analyzer (GUI) or TRCE (command line), with the
+mapped NCD and PCF files. Please note that this timing report will be generated
+using estimated delay information. For accurate numbers, please generate a
+timing report with the post Place and Route NCD file.
+
+For more information about the Timing Analyzer, consult the Xilinx Timing
+Analyzer Reference Manual; for more information about TRCE, consult the Xilinx
+Command Line Tools User Guide "TRACE" chapter.
+
+Section 11 - Configuration String Details
+-----------------------------------------
+Use the "-detail" map option to print out Configuration Strings
+
+Section 12 - Control Set Information
+------------------------------------
+Use the "-detail" map option to print out Control Set Information.
+
+Section 13 - Utilization by Hierarchy
+-------------------------------------
+Use the "-detail" map option to print out the Utilization by Hierarchy section.
