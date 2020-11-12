@@ -172,12 +172,14 @@
 		if (if_rst) begin
 			inst_addr <= 0;
 		end
+		else if (if_en) begin
         case (pc_src_ctrl)
             PC_NEXT: inst_addr<=inst_addr_next;
             PC_FWD_DATA: inst_addr<=data_rs_modified;
             PC_JUMP: inst_addr<={inst_addr_id[31:28],inst_data_id[25:0], 2'b0};
             PC_BRANCH: inst_addr<=inst_addr_next_id+(data_imm<<2);	
         endcase
+		end
 		/*else if (if_en) begin
 			if (is_branch_mem)
 				inst_addr <= branch_target_mem;
@@ -289,27 +291,27 @@
 			wb_wen_exe <= wb_wen_ctrl;
 			addr_rs_exe <= addr_rs;
 			addr_rt_exe <= addr_rt;
-            data_rs_modified_exe <= data_rs_modified;
-            data_rt_modified_exe <= data_rt_modified;
-            fwd_m_exe<=fwd_m;
+         data_rs_modified_exe <= data_rs_modified;
+         data_rt_modified_exe <= data_rt_modified;
+         fwd_m_exe <= fwd_m;
 		end
 	end
-	
+	/*
 	always @(*) begin
 		is_branch_exe <= (pc_src_exe != PC_NEXT);
 	end
-	
+	*/
 	assign
 		rs_rt_equal = (data_rs_modified == data_rt_modified);
 	
 	always @(*) begin
 		case (exe_a_src_exe)
-			EXE_A_FWD_DATA: opa_exe = fwd_a_data_exe;
+			EXE_A_FWD_DATA: opa_exe = data_rs_modified_exe;
 			EXE_A_LINK: opa_exe = inst_addr_next_exe;
 		endcase
 		case (exe_b_src_exe)
-			EXE_B_FWD_DATA: opb_exe = fwd_b_data_exe;
-            EXE_B_FOUR: opb_exe = 4;
+			EXE_B_FWD_DATA: opb_exe = data_rt_modified_exe;
+         EXE_B_FOUR: opb_exe = 4;
 			EXE_B_IMM: opb_exe = data_imm_exe;
 		endcase
 	end
@@ -338,7 +340,7 @@
 			wb_data_src_mem <= 0;
 			wb_wen_mem <= 0;
 			rs_rt_equal_mem <= 0;
-            fwd_m_mem <= 0;
+         fwd_m_mem <= 0;
 		end
 		else if (mem_en) begin
 			mem_valid <= exe_valid;
@@ -355,7 +357,7 @@
 			wb_data_src_mem <= wb_data_src_exe;
 			wb_wen_mem <= wb_wen_exe;
 			rs_rt_equal_mem <= rs_rt_equal;
-            fwd_m_mem<=fwd_m_exe;
+         fwd_m_mem <= fwd_m_exe;
 		end
 	end
 	/*

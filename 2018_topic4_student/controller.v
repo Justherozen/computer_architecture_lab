@@ -67,8 +67,8 @@ module controller (/*AUTOARG*/
 	always @(*) begin
 		pc_src = PC_NEXT;
 		imm_ext = 0;
-		exe_a_src = EXE_A_RS;
-		exe_b_src = EXE_B_RT;
+		exe_a_src = EXE_A_FWD_DATA;
+		exe_b_src = EXE_B_FWD_DATA;
 		exe_alu_oper = EXE_ALU_ADD;
 		mem_ren = 0;
 		mem_wen = 0;
