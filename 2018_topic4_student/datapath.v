@@ -61,10 +61,13 @@
 	input wire wb_rst,
 	input wire wb_en,
 	output reg wb_valid,
-	input wire [1:0]exe_fwd_a_ctrl,
-	input wire [1:0]exe_fwd_b_ctrl,
+	input wire [1:0] fwd_a_ctrl,
+	input wire [1:0] fwd_b_ctrl,
+    input wire fwd_m,
 	output reg wb_wen_wb, 
-	output reg [4:0] regw_addr_wb
+	output reg [4:0] regw_addr_wb,
+    // Branch signals
+    output wire rs_rt_equal
 	);
 	
 	`include "mips_define.vh"
@@ -93,20 +96,22 @@
 	reg [31:0] inst_data_exe;
 	reg [31:0] data_rs_exe, data_rt_exe, data_imm_exe;
 	reg [31:0] data_rs_modified, data_rt_modified;
+	reg [31:0] data_rs_modified_exe, data_rt_modified_exe;
 	reg [31:0] opa_exe, opb_exe;
 	wire [31:0] alu_out_exe;
-	wire rs_rt_equal_exe;
-	
+	reg fwd_m_exe;
+
 	// MEM signals
 	reg [31:0] inst_addr_mem;
 	reg [31:0] inst_addr_next_mem;
 	reg [31:0] inst_data_mem;
-	reg [4:0] data_rs_mem;
+	reg [31:0] data_rs_mem;
 	reg [31:0] data_rt_mem;
 	reg [31:0] alu_out_mem;
 	reg [31:0] branch_target_mem;
 	reg rs_rt_equal_mem;
-	
+	reg fwd_m_mem;
+
 	// WB signals
 	reg [31:0] alu_out_wb;
 	reg [31:0] mem_din_wb;
@@ -143,8 +148,8 @@
 			21: debug_data_signal <= mem_dout;
 			22: debug_data_signal <= {27'b0, regw_addr_wb};
 			23: debug_data_signal <= regw_data_wb;
-			24: debug_data_signal <= exe_fwd_a_ctrl;
-			25: debug_data_signal <= exe_fwd_b_ctrl;
+			24: debug_data_signal <=  fwd_a_ctrl;
+			25: debug_data_signal <=  fwd_b_ctrl;
 
 			default: debug_data_signal <= 32'hFFFF_FFFF;
 		endcase
@@ -167,12 +172,18 @@
 		if (if_rst) begin
 			inst_addr <= 0;
 		end
-		else if (if_en) begin
+        case (pc_src_ctrl)
+            PC_NEXT: inst_addr<=inst_addr_next;
+            PC_FWD_DATA: inst_addr<=data_rs_modified;
+            PC_JUMP: inst_addr<={inst_addr_id[31:28],inst_data_id[25:0], 2'b0};
+            PC_BRANCH: inst_addr<=inst_addr_next_id+(data_imm<<2);	
+        endcase
+		/*else if (if_en) begin
 			if (is_branch_mem)
 				inst_addr <= branch_target_mem;
 			else
 				inst_addr <= inst_addr_next;
-		end
+		end*/
 	end
 	
 	// ID stage
@@ -223,19 +234,17 @@
 	
 	// EXE stage
 	always @(*) begin
-		data_rs_modified = data_rs_exe;
-		data_rt_modified = data_rt_exe;
-		case (exe_fwd_a_ctrl)
-		0: data_rs_modified = data_rs_exe;
+		case (fwd_a_ctrl)
+		0: data_rs_modified = data_rs;
 		1: data_rs_modified = alu_out_mem;
 		2: data_rs_modified = mem_din;
-		3: data_rs_modified = regw_data_wb;
+		3: data_rs_modified = alu_out_exe;
 		endcase
-		case (exe_fwd_b_ctrl)
-		0: data_rt_modified = data_rt_exe;
+		case (fwd_b_ctrl)
+		0: data_rt_modified = data_rt;
 		1: data_rt_modified = alu_out_mem;
 		2: data_rt_modified = mem_din;
-		3: data_rt_modified = regw_data_wb;
+		3: data_rt_modified = alu_out_exe;
 		endcase
 	end
 	
@@ -257,6 +266,9 @@
 			mem_wen_exe <= 0;
 			wb_data_src_exe <= 0;
 			wb_wen_exe <= 0;
+            fwd_m_exe <= 0;
+            data_rs_modified_exe <= 0;
+		    data_rt_modified_exe <= 0;
 		end
 		else if (exe_en) begin
 			exe_valid <= id_valid;
@@ -277,6 +289,9 @@
 			wb_wen_exe <= wb_wen_ctrl;
 			addr_rs_exe <= addr_rs;
 			addr_rt_exe <= addr_rt;
+            data_rs_modified_exe <= data_rs_modified;
+            data_rt_modified_exe <= data_rt_modified;
+            fwd_m_exe<=fwd_m;
 		end
 	end
 	
@@ -285,21 +300,17 @@
 	end
 	
 	assign
-		rs_rt_equal_exe = (data_rs_modified == data_rt_modified);
+		rs_rt_equal = (data_rs_modified == data_rt_modified);
 	
 	always @(*) begin
-		opa_exe = data_rs_modified;
-		opb_exe = data_rt_modified;
 		case (exe_a_src_exe)
-			EXE_A_RS: opa_exe = data_rs_modified;
+			EXE_A_FWD_DATA: opa_exe = fwd_a_data_exe;
 			EXE_A_LINK: opa_exe = inst_addr_next_exe;
-			EXE_A_BRANCH: opa_exe = inst_addr_next_exe;
 		endcase
 		case (exe_b_src_exe)
-			EXE_B_RT: opb_exe = data_rt_modified;
+			EXE_B_FWD_DATA: opb_exe = fwd_b_data_exe;
+            EXE_B_FOUR: opb_exe = 4;
 			EXE_B_IMM: opb_exe = data_imm_exe;
-			EXE_B_LINK: opb_exe = 32'b0; // linked address is the next oneof current instruction
-			EXE_B_BRANCH: opb_exe = {data_imm_exe[29:0], 2'b0};
 		endcase
 	end
 	
@@ -327,6 +338,7 @@
 			wb_data_src_mem <= 0;
 			wb_wen_mem <= 0;
 			rs_rt_equal_mem <= 0;
+            fwd_m_mem <= 0;
 		end
 		else if (mem_en) begin
 			mem_valid <= exe_valid;
@@ -335,21 +347,23 @@
 			inst_data_mem <= inst_data_exe;
 			inst_addr_next_mem <= inst_addr_next_exe;
 			regw_addr_mem <= regw_addr_exe;
-			data_rs_mem <= data_rs_modified;
-			data_rt_mem <= data_rt_modified;
+			data_rs_mem <= data_rs_modified_exe;
+			data_rt_mem <= data_rt_modified_exe;
 			alu_out_mem <= alu_out_exe;
 			mem_ren_mem <= mem_ren_exe;
 			mem_wen_mem <= mem_wen_exe;
 			wb_data_src_mem <= wb_data_src_exe;
 			wb_wen_mem <= wb_wen_exe;
-			rs_rt_equal_mem <= rs_rt_equal_exe;
+			rs_rt_equal_mem <= rs_rt_equal;
+            fwd_m_mem<=fwd_m_exe;
 		end
 	end
-	
+	/*
 	always @(*) begin
 		is_branch_mem <= (pc_src_mem != PC_NEXT);
 	end
-	
+    */
+	/*
 	always @(*) begin
 		case (pc_src_mem)
 			PC_JUMP: branch_target_mem <= {inst_addr_mem[31:28],inst_data_mem[25:0], 2'b0};
@@ -359,12 +373,12 @@
 default: branch_target_mem <= inst_addr_next_mem; // will never used
 		endcase
 	end
-	
+	*/
 	assign
 		mem_ren = mem_ren_mem,
 		mem_wen = mem_wen_mem,
 		mem_addr = alu_out_mem,
-		mem_dout = data_rt_mem;
+		mem_dout = fwd_m_mem ? regw_data_wb : data_rt_mem;
 	
 	// WB stage
 	always @(posedge clk) begin
