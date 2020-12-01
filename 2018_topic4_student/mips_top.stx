@@ -1,0 +1,107 @@
+Release 14.7 - xst P.20131013 (nt64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+--> Parameter TMPDIR set to F:/Meyas/computer_architecture_lab/2018_topic4_student/xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.07 secs
+ 
+--> Parameter xsthdpdir set to F:/Meyas/computer_architecture_lab/2018_topic4_student/xst
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.07 secs
+ 
+--> Reading design: mips_top.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Parsing
+  3) HDL Elaboration
+  4) HDL Synthesis
+       4.1) HDL Synthesis Report
+  5) Advanced HDL Synthesis
+       5.1) Advanced HDL Synthesis Report
+  6) Low Level Synthesis
+  7) Partition Report
+  8) Design Summary
+       8.1) Primitive and Black Box Usage
+       8.2) Device utilization summary
+       8.3) Partition Resource Summary
+       8.4) Timing Report
+            8.4.1) Clock Information
+            8.4.2) Asynchronous Control Signals Information
+            8.4.3) Timing Summary
+            8.4.4) Timing Details
+            8.4.5) Cross Clock Domains Report
+
+
+=========================================================================
+*                          HDL Parsing                                  *
+=========================================================================
+Analyzing Verilog file "F:\Meyas\computer_architecture_lab\2018_topic4_student\regfile.v" into library work
+Parsing verilog file "define.vh" included at line 1.
+Parsing module <regfile>.
+Analyzing Verilog file "F:\Meyas\computer_architecture_lab\2018_topic4_student\alu.v" into library work
+Parsing verilog file "define.vh" included at line 1.
+Parsing module <alu>.
+Parsing verilog file "mips_define.vh" included at line 14.
+Analyzing Verilog file "F:\Meyas\computer_architecture_lab\2018_topic4_student\datapath.v" into library work
+Parsing verilog file "define.vh" included at line 1.
+Parsing module <datapath>.
+Parsing verilog file "mips_define.vh" included at line 73.
+Analyzing Verilog file "F:\Meyas\computer_architecture_lab\2018_topic4_student\controller.v" into library work
+Parsing verilog file "define.vh" included at line 1.
+Parsing module <controller>.
+Parsing verilog file "mips_define.vh" included at line 62.
+Analyzing Verilog file "F:\Meyas\computer_architecture_lab\2018_topic4_student\vga_8x16.v" into library work
+Parsing module <pc_vga_8x16_00_7F>.
+Analyzing Verilog file "F:\Meyas\computer_architecture_lab\2018_topic4_student\parallel2serial.v" into library work
+Parsing verilog file "define.vh" included at line 1.
+Parsing module <parallel2serial>.
+Parsing verilog file "function.vh" included at line 20.
+Analyzing Verilog file "F:\Meyas\computer_architecture_lab\2018_topic4_student\mips_core.v" into library work
+Parsing verilog file "define.vh" included at line 1.
+Parsing module <mips_core>.
+Analyzing Verilog file "F:\Meyas\computer_architecture_lab\2018_topic4_student\inst_rom.v" into library work
+Parsing module <inst_rom>.
+Analyzing Verilog file "F:\Meyas\computer_architecture_lab\2018_topic4_student\data_ram.v" into library work
+Parsing module <data_ram>.
+Analyzing Verilog file "F:\Meyas\computer_architecture_lab\2018_topic4_student\vga_debug.v" into library work
+Parsing module <vga_debug>.
+WARNING:HDLCompiler:327 - "F:\Meyas\computer_architecture_lab\2018_topic4_student\vga_debug.v" Line 59: Concatenation with unsized literal; will interpret as 32 bits
+Analyzing Verilog file "F:\Meyas\computer_architecture_lab\2018_topic4_student\vga.v" into library work
+Parsing module <vga>.
+WARNING:HDLCompiler:751 - "F:\Meyas\computer_architecture_lab\2018_topic4_student\vga.v" Line 11: Redeclaration of ansi port h_count is not allowed
+WARNING:HDLCompiler:751 - "F:\Meyas\computer_architecture_lab\2018_topic4_student\vga.v" Line 22: Redeclaration of ansi port v_count is not allowed
+Analyzing Verilog file "F:\Meyas\computer_architecture_lab\2018_topic4_student\my_clk_gen.v" into library work
+Parsing module <my_clk_gen>.
+Analyzing Verilog file "F:\Meyas\computer_architecture_lab\2018_topic4_student\mips.v" into library work
+Parsing verilog file "define.vh" included at line 1.
+Parsing module <mips>.
+Analyzing Verilog file "F:\Meyas\computer_architecture_lab\2018_topic4_student\display.v" into library work
+Parsing verilog file "define.vh" included at line 1.
+Parsing module <display>.
+Parsing verilog file "function.vh" included at line 27.
+Analyzing Verilog file "F:\Meyas\computer_architecture_lab\2018_topic4_student\clk_diff.v" into library work
+Parsing module <clk_diff>.
+Analyzing Verilog file "F:\Meyas\computer_architecture_lab\2018_topic4_student\btn_scan.v" into library work
+Parsing verilog file "define.vh" included at line 1.
+Parsing module <btn_scan>.
+Parsing verilog file "function.vh" included at line 17.
+Analyzing Verilog file "F:\Meyas\computer_architecture_lab\2018_topic4_student\mips_top.v" into library work
+Parsing verilog file "define.vh" included at line 1.
+Parsing module <mips_top>.
+
+
+Total REAL time to Xst completion: 5.00 secs
+Total CPU time to Xst completion: 5.22 secs
+ 
+--> 
+
+Total memory usage is 4504824 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :    3 (   0 filtered)
+Number of infos    :    0 (   0 filtered)
+
