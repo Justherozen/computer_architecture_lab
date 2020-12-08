@@ -447,16 +447,6 @@ module controller (/*AUTOARG*/
 		end
 	end
 
-	always @(*) begin
-    //TODO 原来的branch stall的逻辑，删掉了
-		// branch_stall = 0;
-		// ID Stage for BEQ INSTR 	: pc_src != PC_NEXT
-		// EXE Stage for BEQ INSTR 	: is_branch_exe
-		// MEM Stage for BEQ INSTR 	: is_branch_mem
-		// if (pc_src != PC_NEXT || is_branch_exe || is_branch_mem)
-			// branch_stall = 1;
-	end
-
 	`ifdef DEBUG
 	reg debug_step_prev;
 
@@ -493,16 +483,6 @@ module controller (/*AUTOARG*/
 			wb_en = 0;
 		end
 		`endif
-		// this stall indicate that ID is waiting for previous instruction, should insert NOPs between ID and EXE.
-		// else if (reg_stall) begin
-		// 	if_en = 0;
-		// 	id_en = 0;
-		// 	exe_rst = 1;
-		// end
-		// // this stall indicate that a jump/branch instruction is running, so that 3 NOP should be inserted between IF and ID
-		// else if (branch_stall) begin
-		// 	id_rst = 1;
-		// end
 		else if(load_stall) begin
 			if_en = 0;
 			id_en = 0;

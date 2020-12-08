@@ -13,11 +13,12 @@ module cp0 (
     input wire ir_en, // interrupt enable
     input wire ir_in, // external interrupt input
     input wire [31:0] ret_addr, // target instruction address to store when interrupt occurred
-    output reg ir,
+    output wire ir,
     output reg ir_valid,
     output reg ir_wait,
     output reg jump_en, // force jump enable signal when interrupt authorised or ERET occurred
-    output reg [31:0] jump_addr // target instruction address to jump to
+    output reg [31:0] jump_addr, // target instruction address to jump to
+	 output reg [31:0] ir_count
     );
 	`include "mips_define.vh"
 
@@ -29,47 +30,39 @@ module cp0 (
     reg ir_in_previous = 0;
 
     assign eret = (oper == EXE_CP0_ERET);
-    always @(posedge clk) begin
-        if (rst) begin
-            ir_valid = 1;
-            ir_wait = 0;
-            ir_in_previous = 0;
-        end else begin
-            if (eret)
-                ir_valid = 1;
-            else if (ir)
-                ir_valid = 0; // prevent exception reenter
-            if (ir_in && !ir_in_previous)
-                ir_wait = 1;
-            else if (eret)
-                ir_wait = 0;
-            ir_in_previous = ir_in;
-        end
-        ir = ir_en & ir_wait & ir_valid;
+	 
+	 always @(posedge clk) begin
+	     if (rst)
+		      ir_wait <= 0;
+		  else if (ir_in)
+		      ir_wait <= 1;
+        else if (eret)
+			    ir_wait <= 0;
     end
-
-    // // Exception Handler Base Register
-    // always @(posedge clk) begin
-    //
-    // end
-    //
-    // // Exception Program Counter Register
-    // always @(posedge clk) begin
-    //     //бнбн
-    // end
-    assign data_r = regs[addr_r];
-    // always @(posedge clk) begin
-    //     data_r = regs[addr_r];
-    // end
-
-    // jump determination
-    always @(posedge clk) begin	// TODO: seems to has bugs
+	 
+	 always @(posedge clk) begin
+	     if (rst)
+		      ir_valid <= 1;
+		  else if (eret)
+		      ir_valid <= 1;
+		  else if (ir)
+		      ir_valid <= 0;  // prevent exception reenter
+	 end
+	
+	 assign ir = ir_en & ir_wait & ir_valid;
+	 
+    assign data_r = regs[addr_r]; //mfc0
+	 
+    // controller
+    always @(posedge clk) begin
         if (oper == EXE_CP0_ERET) begin //eret
             jump_addr = regs[CP0_EPCR];
             jump_en = 1;
-        end else if (oper == EXE_CP_STORE) begin
-		    regs[addr_w] = data_w;
-		end else if (ir) begin //external interrupt
+        end else if (oper == EXE_CP_STORE) begin //mtc0
+				ir_count = 0;
+		      regs[addr_w] = data_w;
+		  end else if (ir) begin //external interrupt
+				ir_count = ir_count+1;
             jump_addr = regs[CP0_EHBR];
             regs[CP0_EPCR] = ret_addr;
             jump_en = 1;
