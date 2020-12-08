@@ -7,3 +7,5 @@
 !*.bit
 !*.xise
 !*.gise
+!*.md
+!*.ucf
