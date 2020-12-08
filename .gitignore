@@ -1,0 +1,8 @@
+*
+!.gitignore
+!*.v
+!*.vh
+!*.hex
+!*.bit
+!*.xise
+!*.gise
