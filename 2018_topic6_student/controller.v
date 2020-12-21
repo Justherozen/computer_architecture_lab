@@ -104,7 +104,6 @@ module controller (/*AUTOARG*/
 				case (inst[5:0])
 					R_FUNC_JR: begin
 						pc_src = PC_FWD_DATA;
-                        // fwd_a_ctrl=2'b11; TODO: 应该要去掉吧
 						rs_used = 1;
 					end
 					R_FUNC_ADD: begin
@@ -122,7 +121,7 @@ module controller (/*AUTOARG*/
                         wb_wen = 1;
                         rs_used = 1;
                         rt_used = 1;
-                        //TODO overflow trap
+                        
                     end
 					R_FUNC_SUB: begin
 						exe_alu_oper =EXE_ALU_SUB;
@@ -139,7 +138,7 @@ module controller (/*AUTOARG*/
 						wb_wen = 1;
 						rs_used = 1;
 						rt_used = 1;
-                        //TODO overflow trap
+                        
 					end
 					R_FUNC_AND: begin
 						exe_alu_oper = EXE_ALU_AND;
@@ -254,7 +253,7 @@ module controller (/*AUTOARG*/
 			INST_JAL: begin
 				pc_src = PC_JUMP;
 				exe_a_src = EXE_A_LINK;
-				exe_b_src = EXE_B_FOUR; // TODO: 这个地方是不是不需要给exe_b_src赋值了？-- 我也不确定
+				exe_b_src = EXE_B_FOUR; 
 				exe_alu_oper = EXE_ALU_ADD;
 				wb_addr_src = WB_ADDR_LINK;
 				wb_data_src = WB_DATA_ALU;
@@ -262,7 +261,7 @@ module controller (/*AUTOARG*/
 			end
 			INST_BEQ: begin
 				pc_src = a_b_equal?PC_BRANCH:PC_NEXT;
-				exe_a_src = EXE_A_FWD_DATA;//TODO 不太确定
+				exe_a_src = EXE_A_FWD_DATA;
 				exe_b_src = EXE_B_FOUR;
 				exe_alu_oper = EXE_ALU_ADD;
 				imm_ext = 1;
@@ -271,7 +270,7 @@ module controller (/*AUTOARG*/
 			end
 			INST_BNE: begin
 				pc_src = a_b_equal?PC_NEXT:PC_BRANCH;
-				exe_a_src = EXE_A_FWD_DATA;//TODO 不太确定
+				exe_a_src = EXE_A_FWD_DATA;
 				exe_b_src = EXE_B_FOUR;
 				exe_alu_oper = EXE_ALU_ADD;
 				imm_ext = 1;
@@ -295,7 +294,7 @@ module controller (/*AUTOARG*/
 				wb_data_src = WB_DATA_ALU;
 				wb_wen = 1;
 				rs_used = 1;
-                //without overflow
+               
 			end
 			INST_ANDI: begin
 				imm_ext =0;
@@ -400,8 +399,6 @@ module controller (/*AUTOARG*/
 		endcase
 	end
 
-	// pipeline control
-//	reg reg_stall;
 	reg branch_stall;
 	wire [4:0] addr_rs, addr_rt;
 
@@ -430,7 +427,7 @@ module controller (/*AUTOARG*/
 				fwd_b_ctrl = 2'b01;
 		end
 
-		if (wb_wen_mem && regw_addr_mem != 0) begin	// after load stall
+		if (wb_wen_mem && regw_addr_mem != 0) begin	
 			if(regw_addr_mem == addr_rs && mem_ren_mem)
 				fwd_a_ctrl = 2'b11;
 			if(regw_addr_mem == addr_rt && mem_ren_mem)
@@ -474,7 +471,7 @@ module controller (/*AUTOARG*/
 			wb_rst = 1;
 		end
 		`ifdef DEBUG
-		// suspend and step execution
+
 		else if ((debug_en) && ~(~debug_step_prev && debug_step)) begin
 			if_en = 0;
 			id_en = 0;
