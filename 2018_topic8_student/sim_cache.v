@@ -71,6 +71,7 @@ module sim_cache;
 		#20 addr = 32'h0000_00A8;
 		#20 addr = 32'h0000_001C;
 		#20 store = 0; addr = 32'h0000_00B4; din = 0;
+		#20 edit = 1; addr = 32'h0000_00B4; din = 32'h3333_3333;
 		#100 edit = 1; din = 32'h2222_2222; addr = 32'h0000_0008;
 		#100 edit = 0; din = 0; addr = 0;
 
