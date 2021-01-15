@@ -44,7 +44,7 @@ module top (
 			stall_prev <= stall;
 	end
 
-	always @(negedge clk) begin
+	always @(posedge clk) begin
 		if (rst) begin
 			clk_count <= 0;   // 时钟计数
 			inst_count <= 0;  // 指令计数
