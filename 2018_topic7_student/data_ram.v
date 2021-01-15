@@ -14,7 +14,7 @@ module data_ram (
 		ADDR_WIDTH = 5;
 
 	reg [31:0] data [0:(1<<ADDR_WIDTH)-1];
-    reg [3:0]counter;
+    reg [2:0]counter;
     reg [31:0] addr_previous;
     reg ack;
 
@@ -35,7 +35,7 @@ module data_ram (
         end else begin
             if (addr_previous==addr) begin
                 counter = counter + 1;
-                if (counter==8) begin
+                if (counter==7) begin
                     if (we && addr[31:ADDR_WIDTH]==0)
                         data[addr[ADDR_WIDTH-1:0]] = din;
                     out = data[addr[ADDR_WIDTH-1:0]];

@@ -44,7 +44,7 @@ module top (
 			stall_prev <= stall;
 	end
 
-	always @(posedge clk) begin
+	always @(negedge clk) begin
 		if (rst) begin
 			clk_count <= 0;   // 时钟计数
 			inst_count <= 0;  // 指令计数
@@ -68,8 +68,7 @@ module top (
 	);
 
  	data_ram #(
-		.ADDR_WIDTH(5),
-		.CLK_DELAY(3)
+		.ADDR_WIDTH(5)
 		) RAM (
 		.clk(clk),
 		.rst(rst),

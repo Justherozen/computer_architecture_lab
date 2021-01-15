@@ -19,7 +19,7 @@ module inst_rom (
 	end
 
 	reg [31:0] out;
-    reg [3:0]counter;
+    reg [2:0]counter;
     reg [31:0] addr_previous;
     reg ack;
 	always @(negedge clk) begin
@@ -29,7 +29,7 @@ module inst_rom (
         end else begin
             if (addr_previous==addr) begin
                 counter = counter + 1;
-                if (counter==8) begin
+                if (counter==7) begin
                     out <= data[addr[ADDR_WIDTH-1:0]];
                     ack=1;
                 end
